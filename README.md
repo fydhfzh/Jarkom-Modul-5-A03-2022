@@ -383,3 +383,12 @@ iptables -A POSTROUTING -t nat -p tcp -d 192.170.0.26 -j SNAT --to-source 192.17
 iptables -A POSTROUTING -t nat -p tcp -d 192.170.0.27 -j SNAT --to-source 192.170.255.255
 ```
 
+## Soal 6
+
+### Karena Loid ingin tau paket apa saja yang di-drop, maka di setiap node server dan router ditambahkan logging paket yang di-drop dengan standard syslog level.
+
+### Jawaban: -
+
+## Kendala
+- Susah untuk mengerjakan semua modul yang digabung menjadi satu
+- Untuk soal nomor 6 bingung cara pengerjaannya
