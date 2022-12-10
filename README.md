@@ -337,3 +337,49 @@ Kita bisa melakukan *testing* dengan 2 cara, yaitu dengan *ping* website yang be
   
 - Menggunakan `nmap` (sebelumnya pada **Wise**/**Eden** telah menjalankan *command* `nc -l -p 80`)
     ![](https://cdn.discordapp.com/attachments/949602435100467230/1051120276731080734/Screen_Shot_2022-12-10_at_19.55.44.png)
+
+## Soal 3
+
+### Loid meminta kalian untuk membatasi DHCP dan DNS Server hanya boleh menerima maksimal 2 koneksi ICMP secara bersamaan menggunakan iptables, selebihnya didrop.
+
+### Jawaban:
+Untuk melakukan pembatasan jumlah icmp/ping pada DHCP dan DNS Server, maka kita akan menggunakan 2 command ```iptables``` seperti dibawah ini.
+
+Pada Eden dan WISE
+```
+iptables -A INPUT -p icmp -m connlimit --connlimit-above 2 --connlimit-mask 0 -j DROP
+```
+![image](https://user-images.githubusercontent.com/72655301/206858826-f261ce3d-191c-428d-85bb-f3d827550a62.png)
+
+## Soal 4
+
+### Akses menuju Web Server hanya diperbolehkan disaat jam kerja yaitu Senin sampai Jumat pada pukul 07.00 - 16.00.
+
+### Jawaban:
+Dengan menggunakan command ```iptables```, kita akan menambah rules pada Garden dan SSS dengan keyword time untuk spesifikasi waktu seperti dibawah ini.
+
+```
+iptables -A INPUT -d 192.170.0.24/29 -m time --timestart 07.00 --timestop 16.00 --weekdays Mon,Tue,Wed,Thu,Fri -j ACCEPT
+iptables -A INPUT -d 192.170.0.24/29 -j DROP
+```
+
+![image](https://user-images.githubusercontent.com/72655301/206858953-05185dbb-c019-49de-a39d-6e53092780cf.png)
+
+## Soal 5
+
+### Karena kita memiliki 2 Web Server, Loid ingin Ostania diatur sehingga setiap request dari client yang mengakses Garden dengan port 80 akan didistribusikan secara bergantian pada SSS dan Garden secara berurutan dan request dari client yang mengakses SSS dengan port 443 akan didistribusikan secara bergantian pada Garden dan SSS secara berurutan.
+
+### Jawaban:
+Untuk melakukan balancing, kita akan menggunakan beberapa command ```iptables``` sebagai berikut
+
+```
+iptables -A PREROUTING -t nat -p tcp -d 192.170.0.26 --dport 80 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to destination 192.170.0.26
+iptables -A PREROUTING -t nat -p tcp -d 192.170.0.26 --dport 80 -j DNAT --to-destination 192.170.0.27
+
+iptables -A PREROUTING -t nat -p tcp -d 192.170.0.26 --dport 443 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 192.170.0.26
+iptables -A PREROUTING -t nat -p tcp -d 192.170.0.26 --dport 443 -j DNAT --to-destination 192.170.0.27
+
+iptables -A POSTROUTING -t nat -p tcp -d 192.170.0.26 -j SNAT --to-source 192.170.255.255
+iptables -A POSTROUTING -t nat -p tcp -d 192.170.0.27 -j SNAT --to-source 192.170.255.255
+```
+
