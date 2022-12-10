@@ -9,9 +9,7 @@ Anggota:
 
 Setelah kalian mempelajari semua modul yang telah diberikan, Loid ingin meminta bantuan untuk terakhir kalinya kepada kalian. Dan kalian dengan senang hati mau membantu Loid.
 
--   Tugas pertama kalian yaitu membuat topologi jaringan sesuai dengan rancangan yang diberikan Loid dibawah ini:
-
-    <img src="https://user-images.githubusercontent.com/37539546/145604545-0d982687-d091-4332-af24-f384dda6c876.JPG" width="600">
+-   Tugas pertama kalian yaitu membuat topologi jaringan sesuai dengan rancangan yang diberikan Loid seperti di soal
     
     **Keterangan:**
     - Eden adalah DNS Server
