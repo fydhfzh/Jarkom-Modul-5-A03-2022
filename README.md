@@ -308,3 +308,32 @@ service isc-dhcp-server status
 
 Sehabis mengonfigurasi **DHCP Server** dan **DHCP Relay**, *restart* semua *node client* agar *service* DHCP dapat berjalan. 
 
+## Soal 2
+
+### Kalian diminta untuk melakukan drop semua TCP dan UDP dari luar Topologi kalian pada server yang merupakan DHCP Server demi menjaga keamanan. 
+
+### Jawaban:
+
+### Strix
+
+Masukkan *command* berikut pada *node* **Strix**:
+```
+iptables -A FORWARD -p tcp --dport 80 -d 192.170.0.16/29 -i eth0 -j DROP
+```
+- `-A FORWARD` digunakan untuk mendefinisikan *chain* **FORWARD**.
+- `-p tcp` digunakan untuk mendefinisikan protokol **TCP**.
+-  `80` digunakan untuk mendefinisikan *port* **80**.
+-  `d 10.3.7.128/29` digunakan untuk mendefinisikan alamat tujuan dari paket (dalam hal ini DHCP Server dan DNS Server) yang berada pada **192.170.0.16/29**.
+-  `i eth0` digunakan untuk memasukkan paket dari **eth0 Strix**.
+-  `-j DROP` digunakan untuk men-*drop* paket.
+
+### Strix atau Wise & Eden
+
+Kita bisa melakukan *testing* dengan 2 cara, yaitu dengan *ping* website yang berprotokol HTTP pada **Wise**/**Eden** ataupun dengan `nmap -p 80 192.170.0.16` pada **Strix** (dalam hal ini perlu meng-*install* **netcat** pada *node* **Wise**/**Eden**).
+
+- Menggunakan *ping*
+
+  ![](https://cdn.discordapp.com/attachments/949602435100467230/1051120277158903929/Screen_Shot_2022-12-10_at_19.53.56.png)
+  
+- Menggunakan `nmap` (sebelumnya pada **Wise**/**Eden** telah menjalankan *command* `nc -l -p 80`)
+    ![](https://cdn.discordapp.com/attachments/949602435100467230/1051120276731080734/Screen_Shot_2022-12-10_at_19.55.44.png)
