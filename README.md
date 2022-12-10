@@ -205,8 +205,7 @@ route add -net 192.170.0.24 netmask 255.255.255.248 gw 192.170.0.6
 ```
 
 *Testing* pada **Strix** dengan `ping` ke [**google.com**](https://www.google.com).
-
-<img src="https://user-images.githubusercontent.com/37539546/145623774-ca9ca28e-c8b2-4819-b040-bbb2424c9601.JPG" width="600">
+![](https://cdn.discordapp.com/attachments/949602435100467230/1051092656295514172/Screen_Shot_2022-12-10_at_18.06.11.png)
 
 ### Semua node (kecuali Strix)
 
